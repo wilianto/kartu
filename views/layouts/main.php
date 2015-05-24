@@ -4,6 +4,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\User;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -26,7 +27,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'Kawah Putih',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -35,14 +36,66 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                    [
+                        'label' => 'Home',
+                        'url' => ['/site/index'],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
+                        ],
+                    ],
+                    [
+                        'label' => 'User',
+                        'url' => ['/user/index'],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN ? 'show' : 'hide'
+                        ],
+                    ],
+                    [
+                        'label' => 'Kartu', 'url' => ['/kartu/index'],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
+                        ],
+                    ],
+                    [
+                        'label' => 'Isi Saldo',
+                        'url' => ['/saldo/index'],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
+                        ],
+                    ],
+                    [
+                        'label' => 'Transaksi',
+                        'url' => ['/transaksi/index'],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
+                        ],
+                    ],
+                    [
+                        'label' => 'Laporan',
+                        'items' => [
+                            ['label' => 'Laporan Isi Saldo', 'url' => ['/laporan/saldo']],
+                            ['label' => 'Laporan Transaksi', 'url' => ['/laporan/transaksi']],
+                        ],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN ? 'show' : 'hide'
+                        ],
+                    ],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
+                        [
+                            'label' => 'Logout',
+                            'items' => [
+                                [
+                                    'label' => 'Profile',
+                                    'url' => ['/site/profile'],
+                                ],
+                                [
+                                    'label' => 'Logout',
+                                    'url' => ['/site/logout'],
+                                    'linkOptions' => ['data-method' => 'post'],
+                                ],
+                            ],
+                        ],
                 ],
             ]);
             NavBar::end();
@@ -58,8 +111,8 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+            <p class="pull-left">&copy; Kawah Putih <?= date('Y') ?></p>
+            <p class="pull-right"><!-- Develop by <a href="http://bamboodigitalstudio.com" target="_blank">Bamboo Digital Studio</a>--></p>
         </div>
     </footer>
 
