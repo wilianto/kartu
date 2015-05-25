@@ -22,6 +22,7 @@ composer.phar
 
 # composer.lock in applications is ignored since it's automatically created by composer when application is installed
 /apps/*/composer.lock
+/config/db.php
 
 # Mac DS_Store Files
 .DS_Store
@@ -34,3 +35,4 @@ phpunit.phar
 # ignore sub directory for dev installed apps and extensions
 /apps
 /extensions
+
