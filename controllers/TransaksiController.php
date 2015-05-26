@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\models\Kartu;
 use app\models\Counter;
 
 /**
@@ -79,6 +80,14 @@ class TransaksiController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->no = \app\models\Counter::generate(Transaksi::TIPE_TRANSAKSI);
+            //tambahan untuk no_kartu
+            $no = $model->no_kartu;
+            $counter_kartu = Kartu::find()->where(['no_kartu' => $no]);
+            $counter_kartu = $counter_kartu->one();
+
+            $kartu_id = $counter_kartu->id;
+            $model->kartu_id = $kartu_id;
+
             if($model->save()){
               return $this->redirect(['view', 'id' => $model->id]);
             }

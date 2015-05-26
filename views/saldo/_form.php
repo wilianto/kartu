@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'kartu_id')->textInput() ?>
+    <?= $form->field($model, 'no_kartu')->textInput() ?>
 
     <?= $form->field($model, 'nominal')->textInput(['maxlength' => true]) ?>
 

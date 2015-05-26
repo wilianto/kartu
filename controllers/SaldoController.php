@@ -80,6 +80,13 @@ class SaldoController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->no = Counter::generate(Transaksi::TIPE_SALDO);
+            //tambahan untuk no_kartu
+            $no = $model->no_kartu;
+            $counter_kartu = Kartu::find()->where(['no_kartu' => $no]);
+            $counter_kartu = $counter_kartu->one();
+            $kartu_id = $counter_kartu->id;
+            $model->kartu_id = $kartu_id;
+
             if($model->save()){
               return $this->redirect(['view', 'id' => $model->id]);
             }else{

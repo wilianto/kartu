@@ -28,6 +28,7 @@ class Transaksi extends \yii\db\ActiveRecord
      */
 
      public $nama;
+     public $no_kartu;
      public $alamat;
      public $sisasaldo;
 
@@ -45,10 +46,11 @@ class Transaksi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no', 'tgl', 'user_id', 'kartu_id', 'nominal', 'saldo_awal', 'keterangan', 'tipe'], 'required'],
+            [['no', 'tgl', 'user_id', 'no_kartu', 'kartu_id', 'nominal', 'saldo_awal', 'keterangan', 'tipe'], 'required'],
             [['tgl'], 'safe'],
             [['nominal', 'saldo_awal'], 'number'],
             [['nama', 'nama'], 'string'],
+            [['no_kartu'], 'string'],
             [['alamat', 'alamat'], 'string'],
             [['sisasaldo', 'sisasaldo'], 'number'],
             [['keterangan'], 'string'],
