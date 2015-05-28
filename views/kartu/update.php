@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Kartu */
 
-$this->title = 'Update Kartu: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Kartus', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->title = 'Edit Kartu: ' . ' ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Kartu', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->no_kartu, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="kartu-update">

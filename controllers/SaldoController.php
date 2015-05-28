@@ -65,6 +65,8 @@ class SaldoController extends Controller
         ]);
     }
 
+
+
     /**
      * Creates a new Transaksi model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -79,7 +81,9 @@ class SaldoController extends Controller
         $model->tipe = $type;
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->user_id = Yii::$app->user->identity->id;
             $model->no = Counter::generate(Transaksi::TIPE_SALDO);
+
             //tambahan untuk no_kartu
             $no = $model->no_kartu;
             $counter_kartu = Kartu::find()->where(['no_kartu' => $no]);
@@ -88,6 +92,8 @@ class SaldoController extends Controller
             $model->kartu_id = $kartu_id;
 
             if($model->save()){
+              //set auto print
+              Yii::$app->session->setFlash('print', true);
               return $this->redirect(['view', 'id' => $model->id]);
             }else{
               return $this->render('create', [
@@ -101,24 +107,31 @@ class SaldoController extends Controller
         }
     }
 
+    public function actionPrint($id)
+    {
+        return $this->renderPartial('print', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
     /**
      * Updates an existing Transaksi model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
+    // public function actionUpdate($id)
+    // {
+    //     $model = $this->findModel($id);
+    //
+    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
+    //         return $this->redirect(['view', 'id' => $model->id]);
+    //     } else {
+    //         return $this->render('update', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
 
     /**
      * Deletes an existing Transaksi model.
@@ -126,11 +139,21 @@ class SaldoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    // public function actionDelete($id)
+    // {
+    //     $this->findModel($id)->delete();
+    //
+    //     return $this->redirect(['index']);
+    // }
 
-        return $this->redirect(['index']);
+    public function actionKartu(){
+        $no_kartu = Yii::$app->request->post('no_kartu');
+        $kartu = Kartu::find()->where(['no_kartu' => $no_kartu])->one();
+        if(count($kartu) > 0){
+            echo json_encode(\yii\helpers\BaseArrayHelper::toArray($kartu));
+        }else{
+            echo "";
+        }
     }
 
     /**

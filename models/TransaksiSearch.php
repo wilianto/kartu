@@ -12,6 +12,10 @@ use app\models\Transaksi;
  */
 class TransaksiSearch extends Transaksi
 {
+
+    public $no_kartu;
+    public $username;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +23,7 @@ class TransaksiSearch extends Transaksi
     {
         return [
             [['id', 'user_id', 'kartu_id'], 'integer'],
-            [['no', 'tgl', 'keterangan', 'tipe'], 'safe'],
+            [['no', 'tgl', 'keterangan', 'tipe', 'no_kartu', 'username'], 'safe'],
             [['nominal', 'saldo_awal'], 'number'],
         ];
     }
@@ -95,17 +99,20 @@ class TransaksiSearch extends Transaksi
             return $dataProvider;
         }
 
+        $query->joinWith('kartu')
+            ->joinWith('user');
+
         $query->andFilterWhere([
             'id' => $this->id,
             'tgl' => $this->tgl,
-            'user_id' => $this->user_id,
-            'kartu_id' => $this->kartu_id,
             'nominal' => $this->nominal,
             'saldo_awal' => $this->saldo_awal,
             'tipe' => Transaksi::TIPE_SALDO,
         ]);
 
-        $query->andFilterWhere(['like', 'no', $this->no])
+        $query->andFilterWhere(['like', 'kartu.no_kartu', $this->no_kartu])
+            ->andFilterWhere(['like', 'user.username', $this->username])
+            ->andFilterWhere(['like', 'no', $this->no])
             ->andFilterWhere(['like', 'keterangan', $this->keterangan]);
 
         return $dataProvider;

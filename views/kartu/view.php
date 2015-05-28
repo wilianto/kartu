@@ -6,9 +6,9 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Kartu */
 
-$this->title = $model->nama;
-$this->params['breadcrumbs'][] = ['label' => 'Kartus', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = "Lihat Kartu " . $model->no_kartu;
+$this->params['breadcrumbs'][] = ['label' => 'Kartu', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->no_kartu;
 ?>
 <div class="kartu-view">
 
@@ -28,14 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'no_kartu',
             'tgl_daftar',
             'nama',
             'alamat:ntext',
             'no_tlp',
-            'saldo',
-            'user_id',
+            [
+                'attribute' => 'saldo',
+                'value' => Yii::$app->formatter->asCurrency($model->saldo, 'IDR'),
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => $model->user->username,
+            ],
         ],
     ]) ?>
 

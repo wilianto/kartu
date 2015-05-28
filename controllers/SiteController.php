@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\User;
 
 class SiteController extends Controller
 {
@@ -48,8 +49,10 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+        $this->layout = "login";
+        
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['site/index']);
         }
 
         $model = new LoginForm();
@@ -67,5 +70,26 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionProfile()
+    {
+        $model = User::findOne(Yii::$app->user->identity->id);
+        $model->scenario = 'update';
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash("success", "Profile berhasil disimpan.");
+            return $this->refresh();
+        } else {
+            return $this->render('profile', [
+                'model' => $model,
+            ]);
+        }
     }
 }

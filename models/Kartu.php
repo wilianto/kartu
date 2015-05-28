@@ -35,7 +35,7 @@ class Kartu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_kartu', 'tgl_daftar', 'nama', 'alamat', 'no_tlp', 'saldo', 'user_id'], 'required'],
+            [['no_kartu', 'tgl_daftar', 'nama', 'alamat', 'no_tlp', 'saldo'], 'required'],
             [['tgl_daftar'], 'safe'],
             [['alamat'], 'string'],
             [['saldo'], 'number'],

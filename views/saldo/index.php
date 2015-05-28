@@ -25,17 +25,39 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'no',
             'tgl',
-            'user_id',
-            'kartu_id',
-            // 'nominal',
+            [
+                'attribute' => 'no_kartu',
+                'value' => function($data){
+                    return $data->kartu->no_kartu;
+                },
+            ],
+            [
+                'attribute' => 'nominal',
+                'value' => function($data){
+                    return Yii::$app->formatter->asCurrency($data->nominal, 'IDR');
+                },
+            ],
+            [
+                'attribute' => 'username',
+                'value' => function($data){
+                    return $data->user->username;
+                },
+            ],
             // 'saldo_awal',
             // 'keterangan:ntext',
             // 'tipe',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {print}',
+                'buttons' => [
+                    'print' => function($url, $model, $key){
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', ['#'], ['onclick' => 'window.open("'.$url.'", "_blank", "width=320, height=500, resizable=false, scollbars=false, top=100, left=400")']);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

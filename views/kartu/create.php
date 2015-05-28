@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Kartu */
 
-$this->title = 'Create Kartu';
-$this->params['breadcrumbs'][] = ['label' => 'Kartus', 'url' => ['index']];
+$this->title = 'Buat Kartu';
+$this->params['breadcrumbs'][] = ['label' => 'Kartu', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="kartu-create">

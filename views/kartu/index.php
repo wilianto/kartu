@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\KartuSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Member Kartu';
+$this->title = 'Lihat Kartu';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="kartu-index">
@@ -25,13 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'no_kartu',
             'tgl_daftar',
             'nama',
-            'alamat:ntext',
             // 'no_tlp',
-            // 'saldo',
+            [
+                'attribute' => 'saldo',
+                'value' => function($data){
+                    return Yii::$app->formatter->asCurrency($data->saldo, 'IDR');
+                },
+            ],
             // 'user_id',
 
             ['class' => 'yii\grid\ActionColumn'],

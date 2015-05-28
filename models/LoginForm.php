@@ -46,7 +46,11 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Username or password salah.');
+            }else{
+                if(!$user || $user->user_type == User::TYPE_BLOKIR){
+                    $this->addError($attribute, 'Akun Anda sedang diblokir');
+                }
             }
         }
     }

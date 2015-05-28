@@ -39,8 +39,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'user_type'], 'required'],
-            [['password', 'password_repeat'], 'required', 'on' => 'create'],
+            [['username'], 'required'],
+            [['password', 'password_repeat', 'user_type'], 'required', 'on' => 'create'],
+            [['password', 'password_repeat'], 'safe', 'on' => 'update'],
             [['password'], 'compare'],
             [['username', 'password'], 'string', 'max' => 32],
             [['auth_key', 'access_token'], 'string', 'max' => 128],
@@ -146,7 +147,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     public function beforeSave($insert){
-        if($this->isNewRecord || (!$this->isNewRecord && isset($this->password))){
+        if($this->isNewRecord || (!$this->isNewRecord && isset($this->password) && !empty($this->password))){
             $this->password = self::hashPassword($this->password);
         }else{
             unset($this->password);

@@ -79,6 +79,7 @@ class TransaksiController extends Controller
         $model->tipe = $type;
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->user_id = Yii::$app->user->identity->id;
             $model->no = \app\models\Counter::generate(Transaksi::TIPE_TRANSAKSI);
             //tambahan untuk no_kartu
             $no = $model->no_kartu;
@@ -89,6 +90,8 @@ class TransaksiController extends Controller
             $model->kartu_id = $kartu_id;
 
             if($model->save()){
+              //set auto print
+              Yii::$app->session->setFlash('print', true);
               return $this->redirect(['view', 'id' => $model->id]);
             }
             else{
@@ -103,37 +106,43 @@ class TransaksiController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Transaksi model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+    public function actionPrint($id){
+        return $this->renderPartial('print', [
+            'model' => $this->findModel($id),
+        ]);
     }
 
-    /**
-     * Deletes an existing Transaksi model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
+    // /**
+    //  * Updates an existing Transaksi model.
+    //  * If update is successful, the browser will be redirected to the 'view' page.
+    //  * @param integer $id
+    //  * @return mixed
+    //  */
+    // public function actionUpdate($id)
+    // {
+    //     $model = $this->findModel($id);
+    //
+    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
+    //         return $this->redirect(['view', 'id' => $model->id]);
+    //     } else {
+    //         return $this->render('update', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
+    //
+    // /**
+    //  * Deletes an existing Transaksi model.
+    //  * If deletion is successful, the browser will be redirected to the 'index' page.
+    //  * @param integer $id
+    //  * @return mixed
+    //  */
+    // public function actionDelete($id)
+    // {
+    //     $this->findModel($id)->delete();
+    //
+    //     return $this->redirect(['index']);
+    // }
 
     /**
      * Finds the Transaksi model based on its primary key value.

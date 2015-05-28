@@ -74,8 +74,7 @@ class KartuController extends Controller
     {
         $model = new Kartu();
         $model->tgl_daftar = date("Y-m-d");
-        $model->user_id = Yii::$app->user->identity->username;
-
+        $model->user_id = Yii::$app->user->identity->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

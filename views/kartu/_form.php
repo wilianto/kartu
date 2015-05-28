@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'no_kartu')->textInput(['maxlength' => true, 'readonly' => true]) ?>
+    <?= $form->field($model, 'no_kartu')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'tgl_daftar')->textInput(['readonly' => true]) ?>
 
@@ -21,9 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'no_tlp')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'saldo')->textInput(['maxlength' => true, 'readonly' => true]) ?>
+    <?= $form->field($model, 'saldo')->textInput(['maxlength' => true, 'readonly' => !$model->isNewRecord]) ?>
 
-    <?= $form->field($model, 'user_id')->textInput(['readonly' => true]) ?>
+    <?= $form->field($model, 'user_id')->textInput(['readonly' => true, 'value' => $model->user->username]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

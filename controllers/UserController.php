@@ -22,7 +22,7 @@ class UserController extends SiteController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'allow' => !Yii::$app->user->isGuest,
+                        'allow' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN,
                         'roles' => ['@'],
                     ],
                 ],
