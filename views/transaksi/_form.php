@@ -43,7 +43,9 @@ use yii\helpers\Url;
 <?php
 $url = Url::to(['saldo/kartu']);
 $js = <<<JS
-    $("#no_kartu").keyup(function(){
+    $("#no_kartu").keypress(function(e){
+      if(e.which == '13'){
+        e.preventDefault();
         $.ajax({
             method: "POST",
             url: "$url",
@@ -54,8 +56,16 @@ $js = <<<JS
                 $("#nama").val(json['nama']);
                 $("#alamat").val(json['alamat']);
                 $("#saldo_awal").val(json['saldo']);
+                $("#nominal").focus();
+            }
+            else{
+              alert('Nomor Kartu tidak terdaftar!');
+              $("#nama").val('');
+              $("#alamat").val('');
+              $("#saldo_awal").val('');
             }
         });
+      }
     });
 
     $("#nominal").keyup(function(){

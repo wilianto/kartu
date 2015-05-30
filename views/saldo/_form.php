@@ -21,7 +21,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'no_kartu')->textInput(['id' => 'no_kartu']) ?>
 
-    <?= $form->field($model, 'nominal')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nominal')->textInput(['maxlength' => true, 'id' => 'nominal']) ?>
 
     <?= $form->field($model, 'nama')->textInput(['readonly' => true, 'id' => 'nama']) ?>
 
@@ -41,7 +41,9 @@ use yii\helpers\Url;
 <?php
 $url = Url::to(['saldo/kartu']);
 $js = <<<JS
-    $("#no_kartu").keyup(function(){
+    $("#no_kartu").keypress(function(e){
+      if(e.which == '13'){
+        e.preventDefault();
         $.ajax({
             method: "POST",
             url: "$url",
@@ -52,8 +54,17 @@ $js = <<<JS
                 $("#nama").val(json['nama']);
                 $("#alamat").val(json['alamat']);
                 $("#saldo_awal").val(json['saldo']);
+                $("#nominal").focus();
+            }
+            else{
+              alert('Nomor Kartu tidak terdaftar!');
+              $("#nama").val('');
+              $("#alamat").val('');
+              $("#saldo_awal").val('');
             }
         });
+
+      }
     });
 JS;
 $this->registerJs($js);

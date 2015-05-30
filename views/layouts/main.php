@@ -58,14 +58,14 @@ AppAsset::register($this);
                     ],
                     [
                         'label' => 'Isi Saldo',
-                        'url' => ['/saldo/index'],
+                        'url' => ['/saldo/create'],
                         'options' => [
                             'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
                         ],
                     ],
                     [
                         'label' => 'Transaksi',
-                        'url' => ['/transaksi/index'],
+                        'url' => ['/transaksi/create'],
                         'options' => [
                             'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
                         ],

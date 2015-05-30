@@ -73,6 +73,7 @@ class Transaksi extends \yii\db\ActiveRecord
             'kartu_id' => 'Kartu ID',
             'nominal' => 'Nominal',
             'saldo_awal' => 'Saldo Awal',
+            'sisasaldo' => 'Sisa Saldo',
             'keterangan' => 'Keterangan',
             'tipe' => 'Tipe',
         ];
