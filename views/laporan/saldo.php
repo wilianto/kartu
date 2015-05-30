@@ -21,7 +21,7 @@ $this->title = "Laporan Saldo";
 </div>
 <div class="form-group">
     <?= Html::label('Operator', 'operator') ?>
-    <?= Html::dropDownList('operator', [], ArrayHelper::map(User::find()->all(), 'id', 'username'), ['class' => 'form-control', 'id' => 'operator', 'required' => true]) ?>
+    <?= Html::dropDownList('operator', [], array_merge([0 => '== Semua == '], ArrayHelper::map(User::find()->all(), 'id', 'username')), ['class' => 'form-control', 'id' => 'operator', 'required' => true]) ?>
 </div>
 <div class="form-group">
     <?= Html::submitButton('Print', ['class' => 'btn btn-primary']) ?>

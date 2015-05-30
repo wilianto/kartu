@@ -110,19 +110,34 @@ class Transaksi extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getReport($tipe, $start_date, $end_date, $operator){
-        $sql = "SELECT SUM(nominal) AS total
-                FROM transaksi
-                WHERE tipe=:tipe
-                    AND tgl>=:start_date
-                    AND tgl<=:end_date
-                    AND user_id=:user_id ";
+    public static function getReport($tipe, $start_date, $end_date, $operator = 0){
+        if(!empty($operator) || $operator != 0){
+            $sql = "SELECT SUM(nominal) AS total
+                    FROM transaksi
+                    WHERE tipe=:tipe
+                        AND tgl>=:start_date
+                        AND tgl<=:end_date
+                        AND user_id=:user_id ";
 
-        $command = Yii::$app->db->createCommand($sql);
-        $command->bindParam(':tipe', $tipe);
-        $command->bindParam(':start_date', $start_date);
-        $command->bindParam(':end_date', $end_date);
-        $command->bindParam(':user_id', $operator);
+            $command = Yii::$app->db->createCommand($sql);
+            $command->bindParam(':tipe', $tipe);
+            $command->bindParam(':start_date', $start_date);
+            $command->bindParam(':end_date', $end_date);
+            $command->bindParam(':user_id', $operator);
+        }else{
+            $sql = "SELECT SUM(nominal) AS total, u.username AS username
+                    FROM transaksi t
+                    INNER JOIN user u ON u.id = t.user_id
+                    WHERE tipe=:tipe
+                        AND tgl>=:start_date
+                        AND tgl<=:end_date
+                    GROUP BY u.username ";
+
+            $command = Yii::$app->db->createCommand($sql);
+            $command->bindParam(':tipe', $tipe);
+            $command->bindParam(':start_date', $start_date);
+            $command->bindParam(':end_date', $end_date);
+        }
 
         return $command->queryAll();
     }
