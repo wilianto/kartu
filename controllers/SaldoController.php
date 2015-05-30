@@ -88,10 +88,12 @@ class SaldoController extends Controller
             $no = $model->no_kartu;
             $counter_kartu = Kartu::find()->where(['no_kartu' => $no]);
             $counter_kartu = $counter_kartu->one();
-            $kartu_id = $counter_kartu->id;
-            $model->kartu_id = $kartu_id;
+            if(count($counter_kartu) > 0){
+                $kartu_id = $counter_kartu->id;
+                $model->kartu_id = $kartu_id;
+            }
 
-            if($model->save()){
+            if($model->validate() && $model->save()){
               //set auto print
               Yii::$app->session->setFlash('print', true);
               return $this->redirect(['view', 'id' => $model->id]);
