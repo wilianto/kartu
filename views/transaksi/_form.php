@@ -13,11 +13,13 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(['id' => 'transaksi-form']); ?>
 
+    <?= $form->errorSummary($model) ?>
+
     <?= $form->field($model, 'no')->textInput(['maxlength' => true, 'readonly' => true, 'value' => 'AUTO']) ?>
 
     <?= $form->field($model, 'tgl')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'user_id')->textInput(['readonly' => true, 'value' => $model->user->username]) ?>
+    <?= $form->field($model, 'user_id')->textInput(['readonly' => true, 'value' => Yii::$app->user->identity->username]) ?>
 
     <?= $form->field($model, 'no_kartu')->textInput(['id' => 'no_kartu']) ?>
 

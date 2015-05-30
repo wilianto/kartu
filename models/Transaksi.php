@@ -47,7 +47,8 @@ class Transaksi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no', 'tgl', 'user_id', 'no_kartu', 'kartu_id', 'nominal', 'saldo_awal', 'tipe'], 'required'],
+            [['no', 'tgl', 'user_id', 'no_kartu', 'nominal', 'saldo_awal', 'tipe'], 'required'],
+            [['kartu_id'], 'required', 'message' => 'Kartu belum diisi atau tidak terdaftar'],
             [['tgl'], 'safe'],
             [['nominal', 'saldo_awal'], 'number'],
             [['nama', 'nama'], 'string'],
