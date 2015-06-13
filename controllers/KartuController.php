@@ -117,6 +117,14 @@ class KartuController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionPrint($id){
+        $model = $this->findModel($id);
+
+        return $this->renderPartial('print', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Finds the Kartu model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -132,4 +140,5 @@ class KartuController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

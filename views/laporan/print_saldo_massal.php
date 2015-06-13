@@ -67,14 +67,19 @@
                             <td width="120px"><b>Operator</b></td><td><b>Total Isi Saldo</b></td>
                         </tr>
                         <?php
+                        $nominal_total = 0;
                         foreach($total as $v){
                             ?>
                             <tr>
-                                <td><?= $v['username'] ?></td><td><?= Yii::$app->formatter->asCurrency($v['total'], 'IDR') ?></td>
+                                <td><?= $v['username'] ?></td><td align="right"><?= Yii::$app->formatter->asCurrency($v['total'], 'IDR') ?></td>
                             </tr>
                             <?php
+                            $nominal_total += $v['total'];
                         }
-                    ?>
+                        ?>
+                        <tr>
+                            <td><b>Total</b></td><td align="right"><?= Yii::$app->formatter->asCurrency($nominal_total, 'IDR') ?></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="footer">

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Print Laporan Saldo</title>
+        <title>Print Saldo Kartu</title>
         <style>
         body{
             font-size: 14px;
@@ -56,29 +56,20 @@
             </div>
             <div class="print">
                 <div class="header">
-                    <h1>Laporan Transaksi</h1>
+                    <h1>Cek Saldo</h1>
                     <h2>Kawah Putih</h2>
                     <h3>Ciwidey - Bandung</h3>
-                    <p>Periode: <?= $start_date ?> s/d <?= $end_date ?></p>
                 </div>
                 <div class="content">
                     <table border="0">
                         <tr>
-                            <td width="120px"><b>Operator</b></td><td><b>Total Transaksi</b></td>
+                            <td>Tanggal</td><td>:</td><td><?= date('Y-m-d') ?></td>
                         </tr>
-                        <?php
-                        $nominal_total = 0;
-                        foreach($total as $v){
-                            ?>
-                            <tr>
-                                <td><?= $v['username'] ?></td><td align="right"><?= Yii::$app->formatter->asCurrency($v['total'], 'IDR') ?></td>
-                            </tr>
-                            <?php
-                            $nominal_total += $v['total'];
-                        }
-                        ?>
                         <tr>
-                            <td><b>Total</b></td><td align="right"><?= Yii::$app->formatter->asCurrency($nominal_total, 'IDR') ?></td>
+                            <td>No Kartu</td><td>:</td><td><?= $model->no_kartu ?></td>
+                        </tr>
+                        <tr>
+                            <td>Sisa saldo</td><td>:</td><td><?= Yii::$app->formatter->asCurrency($model->saldo, 'IDR') ?></td>
                         </tr>
                     </table>
                 </div>

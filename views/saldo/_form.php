@@ -68,6 +68,7 @@ $js = <<<JS
 
       }
     });
+    $("#no_kartu").focus();
 JS;
 $this->registerJs($js);
 ?>

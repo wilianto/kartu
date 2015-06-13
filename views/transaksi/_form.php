@@ -88,6 +88,8 @@ $js = <<<JS
             return false;
         }
     });
+
+    $("#no_kartu").focus();
 JS;
 $this->registerJs($js);
 ?>

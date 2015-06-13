@@ -37,7 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'user_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{print} {view} {update} {delete}',
+                'buttons' => [
+                    'print' => function($url, $model, $key){
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', ['#'], ['onclick' => 'window.open("'.$url.'", "_blank", "width=320, height=500, resizable=false, scollbars=false, top=100, left=400")']);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 
