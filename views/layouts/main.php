@@ -51,6 +51,13 @@ AppAsset::register($this);
                         ],
                     ],
                     [
+                        'label' => 'Item',
+                        'url' => ['/item/index'],
+                        'options' => [
+                            'class' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN ? 'show' : 'hide'
+                        ],
+                    ],
+                    [
                         'label' => 'Kartu', 'url' => ['/kartu/index'],
                         'options' => [
                             'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
@@ -75,6 +82,7 @@ AppAsset::register($this);
                         'items' => [
                             ['label' => 'Laporan Isi Saldo', 'url' => ['/laporan/saldo']],
                             ['label' => 'Laporan Transaksi', 'url' => ['/laporan/transaksi']],
+                            ['label' => 'Laporan Detail', 'url' => ['/laporan/detail']],
                         ],
                         'options' => [
                             'class' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN ? 'show' : 'hide'

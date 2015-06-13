@@ -96,6 +96,11 @@ class Transaksi extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getDetailTransaksis()
+    {
+        return $this->hasMany(DetailTransaksi::className(), ['transaksi_id' => 'id']);
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         $kartu = Kartu::find()->where(['id' => $this->kartu_id])->one();
