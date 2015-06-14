@@ -77,7 +77,7 @@ class Transaksi extends \yii\db\ActiveRecord
             'sisasaldo' => 'Sisa Saldo',
             'keterangan' => 'Keterangan',
             'tipe' => 'Tipe',
-        ];
+         ];
     }
 
     /**

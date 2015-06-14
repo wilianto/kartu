@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Transaksi;
 use app\models\TransaksiSearch;
+use app\models\DetailTransaksi;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -85,7 +86,7 @@ class TransaksiController extends Controller
             $no = $model->no_kartu;
             $counter_kartu = Kartu::find()->where(['no_kartu' => $no]);
             $counter_kartu = $counter_kartu->one();
-            
+
             if(count($counter_kartu) > 0){
                 $kartu_id = $counter_kartu->id;
                 $model->kartu_id = $kartu_id;
@@ -94,6 +95,20 @@ class TransaksiController extends Controller
             if($model->validate() && $model->save()){
               //set auto print
               Yii::$app->session->setFlash('print', true);
+              $details = Yii::$app->request->post('DetailTransaksi');
+
+              foreach($details as $detail){
+                if($detail['qty'] != ''){
+                  $model_detail = new DetailTransaksi;
+                  $model_detail->qty = $detail['qty'];
+                  $model_detail->nama = $detail['nama'];
+                  $model_detail->item_id = $detail['item_id'];
+                  $model_detail->harga = $detail['harga'];
+                  $model_detail->link('transaksi', $model);
+                  $model_detail->save();
+                }
+              }
+
               return $this->redirect(['view', 'id' => $model->id]);
             }
             else{

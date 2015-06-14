@@ -33,7 +33,7 @@ class DetailTransaksi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['transaksi_id', 'nama', 'harga', 'qty'], 'required'],
+            // [['transaksi_id', 'nama', 'harga'], 'required'],
             [['transaksi_id', 'item_id', 'qty'], 'integer'],
             [['harga'], 'number'],
             [['nama'], 'string', 'max' => 200]
