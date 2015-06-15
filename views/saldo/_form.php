@@ -27,9 +27,9 @@ use app\models\DetailTransaksi;
     <?= $form->field($model, 'no_kartu')->textInput(['id' => 'no_kartu']) ?>
 
     <b><?= 'Isi Saldo untuk Tiket:' ?></b>
-    <table class="table table-striped">
+    <table class="table table-striped" style="width: 50%">
       <tr>
-        <b><td>Jumlah</td></b>
+        <b><td width="80px">Jumlah</td></b>
         <b><td>Item</td></b>
         <b><td>Harga</td></b>
       </tr>
@@ -47,10 +47,10 @@ use app\models\DetailTransaksi;
           echo "<td><b>";
       ?>
 
-      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]qty")->textInput(['class' => 'qty form-control', 'data-id' => 'harga-'.$row['id']])->label(''); ?>
-      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]harga")->hiddenInput(['class' => 'harga form-control', 'id' => 'harga-'.$row['id'], 'value' => $harga])->label(''); ?>
-      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]nama")->hiddenInput(['class' => 'nama form-control', 'value' => $item])->label(''); ?>
-      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]item_id")->hiddenInput(['class' => 'item form-control', 'value' => $id])->label(''); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]qty")->textInput(['class' => 'qty form-control', 'data-id' => 'harga-'.$row['id']])->label(false); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]harga")->hiddenInput(['class' => 'harga form-control', 'id' => 'harga-'.$row['id'], 'value' => $harga])->label(false); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]nama")->hiddenInput(['class' => 'nama form-control', 'value' => $item])->label(false); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]item_id")->hiddenInput(['class' => 'item form-control', 'value' => $id])->label(false); ?>
 
 
       <?php
@@ -103,7 +103,7 @@ $js = <<<JS
                 $("#nama").val(json['nama']);
                 $("#alamat").val(json['alamat']);
                 $("#saldo_awal").val(json['saldo']);
-                $("input.qty").focus();
+                $("input.qty:first").focus();
             }
             else{
               alert('Nomor Kartu tidak terdaftar!');
