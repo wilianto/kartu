@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\DetailTransaksi;
 use app\models\Kartu;
 use yii\db\Query;
 
@@ -77,7 +78,7 @@ class Transaksi extends \yii\db\ActiveRecord
             'sisasaldo' => 'Sisa Saldo',
             'keterangan' => 'Keterangan',
             'tipe' => 'Tipe',
-        ];
+         ];
     }
 
     /**

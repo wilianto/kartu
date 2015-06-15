@@ -1,8 +1,10 @@
 <?php
 
+use app\models\Item;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
+use app\models\DetailTransaksi;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Transaksi */
@@ -23,7 +25,48 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'no_kartu')->textInput(['id' => 'no_kartu']) ?>
 
-    <?= $form->field($model, 'nominal')->textInput(['maxlength' => true, 'id' => 'nominal']) ?>
+    <b><?= 'Pembelian Tiket:' ?></b>
+    <table class="table table-striped">
+      <tr>
+        <b><td>Jumlah</td></b>
+        <b><td>Item</td></b>
+        <b><td>Harga</td></b>
+      </tr>
+      <?php
+      $rows = Item::find()->asArray()->all();
+
+      if(!empty($rows)){
+        foreach($rows as $row){
+          echo "<tr>";
+
+          $item = $row['nama'];
+          $harga = $row['harga'];
+          $id = $row['id'];
+
+          echo "<td><b>";
+      ?>
+
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]qty")->textInput(['class' => 'qty form-control', 'data-id' => 'harga-'.$row['id']])->label(''); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]harga")->hiddenInput(['class' => 'harga form-control', 'id' => 'harga-'.$row['id'], 'value' => $harga])->label(''); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]nama")->hiddenInput(['class' => 'nama form-control', 'value' => $item])->label(''); ?>
+      <?php echo $form->field(new DetailTransaksi(), "[{$row['id']}]item_id")->hiddenInput(['class' => 'item form-control', 'value' => $id])->label(''); ?>
+
+
+      <?php
+          echo "</b></td>";
+          echo "<td><b>";
+          echo $item;
+          echo "</b></td>";
+          echo "<td><b>";
+          echo Yii::$app->formatter->asCurrency($harga, 'IDR');
+          echo "</b></td>";
+          echo "</tr>";
+        }
+      }
+      ?>
+    </table>
+
+    <?= $form->field($model, 'nominal')->textInput(['readonly' => true, 'maxlength' => true, 'id' => 'nominal']) ?>
 
     <?= $form->field($model, 'nama')->textInput(['readonly' => true, 'id' => 'nama']) ?>
 
@@ -58,7 +101,7 @@ $js = <<<JS
                 $("#nama").val(json['nama']);
                 $("#alamat").val(json['alamat']);
                 $("#saldo_awal").val(json['saldo']);
-                $("#nominal").focus();
+                $("input.qty").focus();
             }
             else{
               alert('Nomor Kartu tidak terdaftar!');
@@ -70,13 +113,21 @@ $js = <<<JS
       }
     });
 
-    $("#nominal").keyup(function(){
-        var sisa_saldo = parseInt($("#saldo_awal").val()) - parseInt($("#nominal").val());
-        if(isNaN(sisa_saldo)){
-            sisa_saldo = 0;
-        }
-        $("#sisasaldo").val(sisa_saldo);
-    });
+    $("input.qty").keyup(function(e){
+      var totalnom = 0;
+      $("input.qty").each(function(){
+        var harga_id = $(this).data('id');
+        var harga = $("#"+harga_id).val();
+        var nom = $(this).val() * harga;
+        totalnom = totalnom + nom;
+      });
+      $("#nominal").val(totalnom);
+      var sisa_saldo = parseInt($("#saldo_awal").val()) - parseInt($("#nominal").val());
+      if(isNaN(sisa_saldo)){
+          sisa_saldo = 0;
+      }
+      $("#sisasaldo").val(sisa_saldo);
+    })
 
     $("#transaksi-form").submit(function(){
         var sisa_saldo = parseInt($("#saldo_awal").val()) - parseInt($("#nominal").val());

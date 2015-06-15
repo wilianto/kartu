@@ -1,3 +1,7 @@
+<?php
+use app\models\DetailTransaksi;
+
+?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -79,6 +83,28 @@
                         </tr>
                         <tr>
                             <td>Alamat</td><td>:</td><td><?= $model->kartu->alamat ?></td>
+                        </tr>
+                        <tr>
+                            <td>Tiket</td>
+                            <?php
+
+                              foreach($details as $detail){
+                                $harga = $detail->harga;
+                                $qty = $detail->qty;
+                                $nama = $detail->nama;
+                                echo "<td>";
+                                echo ":</td><td>";
+                                echo "$nama";
+                                echo "</td></tr><tr><td></td><td></td><td>";
+                                echo "$qty x ";
+                                ?>
+                                <?= Yii::$app->formatter->asCurrency($harga, 'IDR') ?>
+                                <?php
+                                echo "</td></tr><tr><td></td>";
+                              }
+                            ?>
+                        <tr>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Saldo Keluar</td><td>:</td><td><?= Yii::$app->formatter->asCurrency($model->nominal, 'IDR') ?></td>
