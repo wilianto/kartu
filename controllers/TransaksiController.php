@@ -95,6 +95,7 @@ class TransaksiController extends Controller
             if($model->validate() && $model->save()){
               //set auto print
               Yii::$app->session->setFlash('print', true);
+
               $details = Yii::$app->request->post('DetailTransaksi');
 
               foreach($details as $detail){
@@ -124,8 +125,11 @@ class TransaksiController extends Controller
     }
 
     public function actionPrint($id){
+      $detail_transaksi = DetailTransaksi::find()->where(['transaksi_id' => $id])->all();
+
         return $this->renderPartial('print', [
             'model' => $this->findModel($id),
+            'details' => $detail_transaksi,
         ]);
     }
 

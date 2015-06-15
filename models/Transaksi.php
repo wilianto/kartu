@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\DetailTransaksi;
 use app\models\Kartu;
 use yii\db\Query;
 
