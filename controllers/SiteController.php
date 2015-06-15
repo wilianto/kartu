@@ -50,9 +50,9 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $this->layout = "login";
-        
+
         if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['site/index']);
+            return $this->redirect(['transaksi/create']);
         }
 
         $model = new LoginForm();

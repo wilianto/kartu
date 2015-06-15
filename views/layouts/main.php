@@ -60,14 +60,14 @@ AppAsset::register($this);
                     [
                         'label' => 'Kartu', 'url' => ['/kartu/index'],
                         'options' => [
-                            'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
+                            'class' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN ? 'show' : 'hide'
                         ],
                     ],
                     [
                         'label' => 'Isi Saldo',
                         'url' => ['/saldo/create'],
                         'options' => [
-                            'class' => !Yii::$app->user->isGuest ? 'show' : 'hide'
+                            'class' => !Yii::$app->user->isGuest && Yii::$app->user->identity->user_type == User::TYPE_ADMIN ? 'show' : 'hide'
                         ],
                     ],
                     [

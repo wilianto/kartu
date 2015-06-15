@@ -92,5 +92,39 @@ class LaporanController extends SiteController{
             return $this->render('transaksi');
         }
     }
+
+    public function actionDetail(){
+        $start_date = Yii::$app->request->get('start_date');
+        $end_date = Yii::$app->request->get('end_date');
+        $operator = Yii::$app->request->get('operator');
+
+        if(!empty($start_date) && !empty($end_date)){
+            $user = User::findOne($operator);
+
+            if($operator != 0 && null === $user){
+                throw new \yii\web\HttpException(404, "Not Found");
+            }
+
+            $data = Transaksi::getReportDetail(Transaksi::TIPE_TRANSAKSI, $start_date, $end_date, $operator);
+
+            if($operator != 0){
+                return $this->renderPartial('print_detail', [
+                    'data' => $data,
+                    'start_date' => $start_date,
+                    'end_date' => $end_date,
+                    'user' => $user,
+                ]);
+            }else{
+                return $this->renderPartial('print_detail_massal', [
+                    'data' => $data,
+                    'start_date' => $start_date,
+                    'end_date' => $end_date,
+                    'user' => $user,
+                ]);
+            }
+        }else{
+            return $this->render('detail');
+        }
+    }
 }
 ?>
