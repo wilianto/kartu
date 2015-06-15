@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Transaksi;
 use app\models\TransaksiSearch;
+use app\models\DetailTransaksi;
 use app\models\Kartu;
 use app\models\Counter;
 use yii\web\Controller;
@@ -96,6 +97,21 @@ class SaldoController extends Controller
             if($model->validate() && $model->save()){
               //set auto print
               Yii::$app->session->setFlash('print', true);
+
+              $details = Yii::$app->request->post('DetailTransaksi');
+
+              foreach($details as $detail){
+                if($detail['qty'] != ''){
+                  $model_detail = new DetailTransaksi;
+                  $model_detail->qty = $detail['qty'];
+                  $model_detail->nama = $detail['nama'];
+                  $model_detail->item_id = $detail['item_id'];
+                  $model_detail->harga = $detail['harga'];
+                  $model_detail->link('transaksi', $model);
+                  $model_detail->save();
+                }
+              }
+
               return $this->redirect(['view', 'id' => $model->id]);
             }else{
               return $this->render('create', [

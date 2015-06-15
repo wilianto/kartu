@@ -33,6 +33,8 @@ class Transaksi extends \yii\db\ActiveRecord
     public $no_kartu;
     public $alamat;
     public $sisasaldo;
+    public $saldosekarang;
+
 
     const TIPE_TRANSAKSI = "transaksi";
     const TIPE_SALDO = "saldo";
@@ -55,7 +57,7 @@ class Transaksi extends \yii\db\ActiveRecord
             [['nama', 'nama'], 'string'],
             [['no_kartu'], 'string'],
             [['alamat', 'alamat'], 'string'],
-            [['sisasaldo'], 'number'],
+            [['sisasaldo', 'saldosekarang'], 'number'],
             [['keterangan'], 'string'],
             [['tipe'], 'string', 'max' => 16],
             [['no'], 'unique'],
@@ -76,6 +78,7 @@ class Transaksi extends \yii\db\ActiveRecord
             'nominal' => 'Nominal',
             'saldo_awal' => 'Saldo Awal',
             'sisasaldo' => 'Sisa Saldo',
+            'saldosekarang' => 'Saldo Sekarang',
             'keterangan' => 'Keterangan',
             'tipe' => 'Tipe',
          ];
