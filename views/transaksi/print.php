@@ -86,21 +86,31 @@ use app\models\DetailTransaksi;
                         </tr>
                         <tr>
                             <td>Tiket</td>
+                            <td>:</td>
+                            <td></td>
+                        </tr>
                             <?php
 
                               foreach($details as $detail){
                                 $harga = $detail->harga;
                                 $qty = $detail->qty;
                                 $nama = $detail->nama;
+                                echo "<tr>";
                                 echo "<td>";
-                                echo ":</td><td>";
                                 echo "$nama";
-                                echo "</td></tr><tr><td></td><td></td><td>";
+                                echo "</td><td></td><td></td></tr></tr><td>";
+                                echo '&nbsp';
+                                echo '&nbsp';
                                 echo "$qty x ";
                                 ?>
                                 <?= Yii::$app->formatter->asCurrency($harga, 'IDR') ?>
                                 <?php
-                                echo "</td></tr><tr><td></td>";
+                                echo "</td><td></td><td>";
+                                $total = $qty * $harga;
+                                ?>
+                                <?= Yii::$app->formatter->asCurrency($total, 'IDR') ?>
+                                <?php
+                                echo "</td></tr>";
                               }
                             ?>
                         <tr>
