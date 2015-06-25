@@ -127,8 +127,11 @@ class SaldoController extends Controller
 
     public function actionPrint($id)
     {
+      $detail_transaksi = DetailTransaksi::find()->where(['transaksi_id' => $id])->all();
+
         return $this->renderPartial('print', [
             'model' => $this->findModel($id),
+            'details' => $detail_transaksi,
         ]);
     }
 
