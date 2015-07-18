@@ -58,7 +58,8 @@ use app\models\DetailTransaksi;
           echo $item;
           echo "</b></td>";
           echo "<td><b>";
-          echo Yii::$app->formatter->asCurrency($harga, 'IDR');
+          echo $form->field($model, 'harga')->textInput(['class' => 'harga form-control', 'value' => $harga])->label(false);
+          // echo Yii::$app->formatter->asCurrency($harga, 'IDR');
           echo "</b></td>";
           echo "</tr>";
         }
@@ -128,6 +129,23 @@ $js = <<<JS
       }
       $("#sisasaldo").val(sisa_saldo);
     })
+
+    $("input.harga").keyup(function(e){
+      var totalnom = 0;
+      $("input.harga").each(function(){
+        var qty = $("input.qty").val();
+        var nom = $(this).val() * qty;
+        totalnom = totalnom + nom;
+      });
+      $("#nominal").val(totalnom);
+      var sisa_saldo = parseInt($("#saldo_awal").val()) - parseInt($("#nominal").val());
+      if(isNaN(sisa_saldo)){
+          sisa_saldo = 0;
+      }
+      $("#sisasaldo").val(sisa_saldo);
+
+    })
+
 
     $("#transaksi-form").submit(function(){
         var sisa_saldo = parseInt($("#saldo_awal").val()) - parseInt($("#nominal").val());
